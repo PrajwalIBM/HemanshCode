@@ -22,8 +22,5 @@ namespace OrganicStore.Models
             return rowsAffected;
         }
 
-        
-
-
     }
 }

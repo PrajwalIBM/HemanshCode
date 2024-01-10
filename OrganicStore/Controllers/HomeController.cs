@@ -28,11 +28,11 @@ namespace OrganicStore.Controllers
             return View();
         }
 
-        public IActionResult Products(User user)
+        public IActionResult Products(List<products> prods)
         {
             /*string Username = TempData["Username"] as string;
             string Password = TempData["Password"] as string;*/
-            return View(user);
+            return View(prods);
         }
 
         public IActionResult Cart()

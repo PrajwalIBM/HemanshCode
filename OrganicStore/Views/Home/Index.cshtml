@@ -157,9 +157,12 @@
                 {
                     <form action="" method="post">
                         <label for="username">Username</label>
-                        <input type="text" id="username" name="username">
+                        <input type="text" id="username" name="username" required>
                         <label for="password">Password</label>
-                        <input type="password" id="password">
+                        <input type="password" id="password" name="password" required>
+                        <span>
+                            @ViewBag.ErrorMessage
+                        </span>
                         <input type="submit" id="submit" value="Login">
                     </form>
                 }

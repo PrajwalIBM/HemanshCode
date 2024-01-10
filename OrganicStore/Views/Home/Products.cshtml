@@ -1,8 +1,11 @@
-﻿@model OrganicStore.Models.User
+﻿@model IEnumerable<OrganicStore.Models.products>
 <title>@ViewBag.Title</title>
 @{
     ViewBag.Title = "Products";
 }
+
+
+
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary text1">
     <!-- Container wrapper -->
@@ -256,8 +259,17 @@
                          class="card-img-top" alt="strawberry" height="300px" />
                     <div class="card-body">
                         <div class="text-center">
-                            <h5 class="card-title">Spinach - Greenhouse grown</h5>
-                            <p class="text-muted mb-4">
+                                <h5 class="card-title">
+                                @if(Model !=null && Model.Any())
+                                {
+                                    foreach(var product in Model)
+                                    {
+                                        @product.p_name
+                                    }
+                                }
+                                
+                            </h5>
+                                <p class="text-muted mb-4">
                                 Sweet and mild in taste,
                                 exceptionally high in iron,
                                 add palak in your paratha or make palak paneer which goes best with butter naan!! Delivered root-cut.
