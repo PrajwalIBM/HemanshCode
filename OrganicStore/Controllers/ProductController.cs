@@ -22,6 +22,7 @@ namespace OrganicStore.Controllers
             prod.category = products.category;
             prod.o_price = products.o_price;
             prod.s_price = products.s_price;
+             prod.img = products.img;
             List<products> res = prod.GetProducts();
             string productsJson = JsonConvert.SerializeObject(res);
             TempData["products"] = productsJson;

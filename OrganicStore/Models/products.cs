@@ -20,7 +20,7 @@ namespace OrganicStore.Models
 
         public float o_price { get; set; }
 
-        public Blob img { get; set; }      
+        public string img { get; set; }      
 
 
         public List<products> GetProducts()
@@ -42,12 +42,8 @@ namespace OrganicStore.Models
                     pd.category = reader.GetString("category");
                     pd.o_price = (float)reader.GetDouble("o_price");
                     pd.s_price = (float)reader.GetDouble("s_price");
-
-                    byte[] imgData = (byte[])reader["img"];
-                    string encodedBytes = Convert.ToBase64String(imgData);
-                    string url = string.Concat("data:image/jpg;base64,", encodedBytes);
-                    /*img.ImageUrl = url;*/
-
+                    pd.img = reader.GetString("img");
+                 
 
                     list.Add(pd);
                 }

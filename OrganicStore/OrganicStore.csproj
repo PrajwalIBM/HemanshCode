@@ -8,6 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\Home\leaf.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Views\Home\leaf.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\background.bmp" />
   </ItemGroup>
 

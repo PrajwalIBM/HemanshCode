@@ -5,6 +5,14 @@
       "PackagePath": "staticwebassets\\OrganicStore.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\HemanshuDharmik\\source\\repos\\OrganicStore\\wwwroot\\Images\\Onion.png",
+      "PackagePath": "staticwebassets\\Images\\Onion.png"
+    },
+    {
+      "Id": "C:\\Users\\HemanshuDharmik\\source\\repos\\OrganicStore\\wwwroot\\Images\\Spinach.png",
+      "PackagePath": "staticwebassets\\Images\\Spinach.png"
+    },
+    {
       "Id": "C:\\Users\\HemanshuDharmik\\source\\repos\\OrganicStore\\wwwroot\\background.bmp",
       "PackagePath": "staticwebassets\\background.bmp"
     },
