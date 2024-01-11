@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Data;
 using System.Reflection.Metadata;
 
 namespace OrganicStore.Models
@@ -21,5 +22,37 @@ namespace OrganicStore.Models
 
         public Blob img { get; set; }      
 
+
+        public List<products> GetProducts()
+        {
+            List<Models.products> list = new List<Models.products>();
+
+            SqlConnection conn = new SqlConnection(ConnectionMod.getConnString());
+            string query = "select * from products";
+            SqlCommand cmd = new SqlCommand(query, conn);
+            conn.Open();
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    products products = new products();
+                    products pd = new Models.products();
+                    pd.p_name = reader.GetString("p_name");
+                    pd.details = reader.GetString("details");
+                    pd.category = reader.GetString("category");
+                    pd.o_price = (float)reader.GetDouble("o_price");
+                    pd.s_price = (float)reader.GetDouble("s_price");
+
+                    byte[] imgData = (byte[])reader["img"];
+                    string encodedBytes = Convert.ToBase64String(imgData);
+                    string url = string.Concat("data:image/jpg;base64,", encodedBytes);
+                    /*img.ImageUrl = url;*/
+
+
+                    list.Add(pd);
+                }
+            }
+            return list;
+        }
     }
  }

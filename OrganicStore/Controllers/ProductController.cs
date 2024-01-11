@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using OrganicStore.Models;
 using System.Data;
+using Newtonsoft.Json;
 
 namespace OrganicStore.Controllers
 {
@@ -13,7 +14,21 @@ namespace OrganicStore.Controllers
         }
 
         [HttpGet]
-        public IActionResult Details()
+        public IActionResult Details(products products)
+        {
+            products prod = new products();
+            prod.p_name = products.p_name;
+            prod.details = products.details;
+            prod.category = products.category;
+            prod.o_price = products.o_price;
+            prod.s_price = products.s_price;
+            List<products> res = prod.GetProducts();
+            string productsJson = JsonConvert.SerializeObject(res);
+            TempData["products"] = productsJson;
+            /*ViewData["products"] = res;*/
+
+            return RedirectToAction("Products","Home",res);            }
+        /*public IActionResult Details()
         {
             List<Models.products> list = new List<Models.products>();
            
@@ -38,15 +53,15 @@ namespace OrganicStore.Controllers
                                 pd.p_name = reader.GetString("p_name");
                                 pd.details = reader.GetString("details");
                                 pd.category = reader.GetString("category");
-                                /*pd.s_price = reader.GetDouble(reader.GetOrdinal("s_price"));
-                                pd.o_price = reader.GetFloat(reader.GetOrdinal("o_price"));*/
+                                *//*pd.s_price = reader.GetDouble(reader.GetOrdinal("s_price"));
+                                pd.o_price = reader.GetFloat(reader.GetOrdinal("o_price"));*//*
 
                                 list.Add(pd);
                             }
-                            
+
                         }
                     }
-                    /*string sql = "SELECT * FROM products";
+                    *//*string sql = "SELECT * FROM products";
                     con.ConnectionString = ConnectionMod.getConnString();
                     
                     
@@ -69,14 +84,17 @@ namespace OrganicStore.Controllers
 
                         list.Add(product);
 
-                    }*/
+                    }*//*
                 }
+
+                
                 return RedirectToAction("Products","Home",list);
-            } 
+            }
             catch (Exception ex)
             {
                return View(ex.Message);
-            }
+            }*/
         }
     }
-}
+
+

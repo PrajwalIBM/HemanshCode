@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<OrganicStore.Models.products>
 <title>@ViewBag.Title</title>
 @{
-    ViewBag.Title = "Products";
+    ViewBag.Title = "products";
 }
 
 
@@ -197,7 +197,7 @@
 
         </div>
 
-    </div>    
+    </div>
 </section>
 <section id="leafyveggie" style="background-color: #eee;">
     <div class="container py-5">
@@ -209,9 +209,11 @@
                     <div class="card-body">
                         <div class="text-center">
                             <h5 class="card-title">Spinach - Greenhouse grown</h5>
-                            <p class="text-muted mb-4">Sweet and mild in taste, 
-                                exceptionally high in iron, 
-                                add palak in your paratha or make palak paneer which goes best with butter naan!! Delivered root-cut.</p>
+                            <p class="text-muted mb-4">
+                                Sweet and mild in taste,
+                                exceptionally high in iron,
+                                add palak in your paratha or make palak paneer which goes best with butter naan!! Delivered root-cut.
+                            </p>
                         </div>
                         <div>
                             <div class="d-flex justify-content-between">
@@ -255,41 +257,41 @@
 
             <div class="col-md-4 col-lg-4 col-xl-4 ">
                 <div class="card text-black">
-                    <img src="https://freepngimg.com/save/153527-fresh-green-spinach-png-file-hd/600x600"
-                         class="card-img-top" alt="strawberry" height="300px" />
+                    @* <img src="https://freepngimg.com/save/153527-fresh-green-spinach-png-file-hd/600x600"
+                         class="card-img-top" alt="strawberry" height="300px" /> *@ 
+                         <asp:Image ID= "imgProduct" runat="server" height="300px"/>
                     <div class="card-body">
                         <div class="text-center">
+
+                            @foreach (products p in Model)
+                            {
                                 <h5 class="card-title">
-                                @if(Model !=null && Model.Any())
-                                {
-                                    foreach(var product in Model)
-                                    {
-                                        @product.p_name
-                                    }
-                                }
-                                
-                            </h5>
+                                    @p.p_name
+                                </h5>
                                 <p class="text-muted mb-4">
-                                Sweet and mild in taste,
-                                exceptionally high in iron,
-                                add palak in your paratha or make palak paneer which goes best with butter naan!! Delivered root-cut.
-                            </p>
-                        </div>
-                        <div>
+                                    @p.details
+                                </p>
+
+                            
+                            <div>
                             <div class="d-flex justify-content-between">
-                                <span>Selling Price</span><span>&#8377 40.00</span>
+                                <span>Selling Price</span><span>&#8377 @p.s_price.00</span>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <span>Original Price</span><span><del>&#8377 45.00</del></span>
+                                <span>Original Price</span><span><del>&#8377 @p.o_price.00</del></span>
                             </div>
-                        </div>
+                            
+                            </div>
+                            }
+                        
+                        
                         <a href="#" class="btn cart px-auto">ADD TO CART</a>
                     </div>
                 </div>
             </div>
 
         </div>
-
+        
     </div>
 </section>
 <a href="#" class="top">Back to Top &#8593;</a>

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using OrganicStore.Models;
 using System.Diagnostics;
 
@@ -28,12 +29,27 @@ namespace OrganicStore.Controllers
             return View();
         }
 
-        public IActionResult Products(List<products> prods)
+
+        [HttpGet]
+        public IActionResult Products()
         {
-            /*string Username = TempData["Username"] as string;
-            string Password = TempData["Password"] as string;*/
-            return View(prods);
+
+            string productsJson = TempData["products"] as string;
+            List<products> res = JsonConvert.DeserializeObject<List<products>>(productsJson);
+
+            ViewData["products"] = res;
+
+            /*List<products> temp = new List<products>();
+           
+            temp = res;
+            Console.WriteLine("1");
+            */return View(res);
         }
+
+        /*public IActionResult Products() {
+           
+            return View(productList);
+        }*/
 
         public IActionResult Cart()
         {
