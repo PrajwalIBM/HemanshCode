@@ -33,6 +33,14 @@
       "PackagePath": "staticwebassets\\js\\site.js"
     },
     {
+      "Id": "C:\\Users\\HemanshuDharmik\\source\\repos\\OrganicStore\\wwwroot\\lib\\apple.jpg",
+      "PackagePath": "staticwebassets\\lib\\apple.jpg"
+    },
+    {
+      "Id": "C:\\Users\\HemanshuDharmik\\source\\repos\\OrganicStore\\wwwroot\\lib\\banana.jpg",
+      "PackagePath": "staticwebassets\\lib\\banana.jpg"
+    },
+    {
       "Id": "C:\\Users\\HemanshuDharmik\\source\\repos\\OrganicStore\\wwwroot\\lib\\bootstrap\\LICENSE",
       "PackagePath": "staticwebassets\\lib\\bootstrap"
     },
@@ -213,6 +221,14 @@
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
     },
     {
+      "Id": "C:\\Users\\HemanshuDharmik\\source\\repos\\OrganicStore\\wwwroot\\lib\\broccoli.jpg",
+      "PackagePath": "staticwebassets\\lib\\broccoli.jpg"
+    },
+    {
+      "Id": "C:\\Users\\HemanshuDharmik\\source\\repos\\OrganicStore\\wwwroot\\lib\\carrot.jpg",
+      "PackagePath": "staticwebassets\\lib\\carrot.jpg"
+    },
+    {
       "Id": "C:\\Users\\HemanshuDharmik\\source\\repos\\OrganicStore\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
       "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
     },
@@ -261,12 +277,32 @@
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
+      "Id": "C:\\Users\\HemanshuDharmik\\source\\repos\\OrganicStore\\wwwroot\\lib\\kale.jpg",
+      "PackagePath": "staticwebassets\\lib\\kale.jpg"
+    },
+    {
       "Id": "C:\\Users\\HemanshuDharmik\\source\\repos\\OrganicStore\\wwwroot\\lib\\leaf.png",
       "PackagePath": "staticwebassets\\lib\\leaf.png"
     },
     {
+      "Id": "C:\\Users\\HemanshuDharmik\\source\\repos\\OrganicStore\\wwwroot\\lib\\lettuce.jpg",
+      "PackagePath": "staticwebassets\\lib\\lettuce.jpg"
+    },
+    {
       "Id": "C:\\Users\\HemanshuDharmik\\source\\repos\\OrganicStore\\wwwroot\\lib\\logo.png",
       "PackagePath": "staticwebassets\\lib\\logo.png"
+    },
+    {
+      "Id": "C:\\Users\\HemanshuDharmik\\source\\repos\\OrganicStore\\wwwroot\\lib\\orange.jpg",
+      "PackagePath": "staticwebassets\\lib\\orange.jpg"
+    },
+    {
+      "Id": "C:\\Users\\HemanshuDharmik\\source\\repos\\OrganicStore\\wwwroot\\lib\\spinach.jpeg",
+      "PackagePath": "staticwebassets\\lib\\spinach.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\HemanshuDharmik\\source\\repos\\OrganicStore\\wwwroot\\lib\\tomato.jpg",
+      "PackagePath": "staticwebassets\\lib\\tomato.jpg"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.OrganicStore.Microsoft.AspNetCore.StaticWebAssets.props",

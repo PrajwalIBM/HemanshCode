@@ -17,6 +17,7 @@ namespace OrganicStore.Controllers
         public IActionResult Details(products products)
         {
             products prod = new products();
+            prod.id = products.id;
             prod.p_name = products.p_name;
             prod.details = products.details;
             prod.category = products.category;

@@ -70,15 +70,59 @@
     @* <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script> *@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+        function submitCart(){
+            // Retrieve cart data from sessionStorage
+            var cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+
+            // Send the cart data to your backend (assuming you have a CartController with a SubmitCart action)
+            fetch('/Cart/SubmitCart',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ cart: cart })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response from the server if needed
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Error submitting cart:', error);
+                });
+        }
+      
+
         // Sample products with image URLs
-        const products = [
+        /*const products = [
             { id: 1, name: 'Mahabaleswar Strawberry', price: 95.00, quantity: 1, image: 'https://freepngimg.com/download/strawberry/8-2-strawberry-download-png.png' },
             { id: 2, name: 'Onion', price: 46.00, quantity: 1, image: 'https://freepngimg.com/download/onion/34402-5-red-onion-hd.png' },
             { id: 3, name: 'Spinach - Greenhouse grown', price: 40.00, quantity: 1, image: 'https://freepngimg.com/save/153527-fresh-green-spinach-png-file-hd/600x600' },
-        ];
+        ];*/
+        const products = JSON.parse(sessionStorage.getItem("cart")) || [];
 
         // Function to render the shopping cart
         function renderCart() {
+            let cartData = {
+                "1": {
+                    "img":" /lib/apple.jpg",
+                    "name":"apple",
+                    "price":200
+
+                },
+                "2": {
+                    "img": " /lib/orange.jpg",
+                    "name": "orange",
+                    "price": 200
+
+                },
+                "3": {
+                    "img": " /lib/carrot.jpg",
+                    "name": "carrot",
+                    "price": 200
+
+                },
+            }
             const cartContainer = document.getElementById('cart-container');
             cartContainer.innerHTML = '';
 
@@ -87,26 +131,26 @@
             products.forEach(product => {
                 const row = document.createElement('tr');
                 row.classList.add('cart-item');
-
+                console.log(products);
                 row.innerHTML = `
-                        <td><img src="${product.image}" alt="${product.name}"></td>
-                        <td>${product.name}</td>
-                        <td>&#8377 ${product.price.toFixed(2)}</td>
-                        <td>
-                            <span onclick="updateQuantity(${product.id}, -1)"><i class="fa fa-minus-circle" aria-hidden="true" style="color:red;"></i></span>
-                            <span>${product.quantity}</span>
-                            <span onclick="updateQuantity(${product.id}, 1)"><i class="fa fa-plus-circle" aria-hidden="true" style="color:green;"></i></span>
-                        </td>
-                        <td>&#8377 ${(product.price * product.quantity).toFixed(2)}</td>
-                        <td><span class="remove-btn" onclick="removeItem(${product.id})"><i class="fa fa-window-close" aria-hidden="true"></i></span></td>
+
+                                    <td><img src = "@Url.Content("${cartData[product.productId].img}")" ></td>
+                                    <td>${cartData[product.productId].name}</td>
+                                    <td>${cartData[product.productId].price}</td>
+                                    <td>${product.quantity}</td>
+                        
+                             
                     `;
+                
+                //url = '~/wwwroot/lib' + cartData[product.productId] + '.jpg';
 
                 cartContainer.appendChild(row);
-                grandTotal += product.price * product.quantity;
+                grandTotal += cartData[product.productId].price * product.quantity;
             });
 
             document.getElementById('grand-total').innerText = `Grand Total: ₹ ${grandTotal.toFixed(2)}`;
         }
+        
 
         // Function to update quantity
         function updateQuantity(productId, quantityChange) {

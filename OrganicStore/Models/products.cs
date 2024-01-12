@@ -37,6 +37,7 @@ namespace OrganicStore.Models
                 {
                     products products = new products();
                     products pd = new Models.products();
+                    pd.id = reader.GetInt32("id");
                     pd.p_name = reader.GetString("p_name");
                     pd.details = reader.GetString("details");
                     pd.category = reader.GetString("category");

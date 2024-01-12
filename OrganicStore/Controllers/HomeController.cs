@@ -33,23 +33,14 @@ namespace OrganicStore.Controllers
         [HttpGet]
         public IActionResult Products()
         {
-
+            
             string productsJson = TempData["products"] as string;
             List<products> res = JsonConvert.DeserializeObject<List<products>>(productsJson);
 
             ViewData["products"] = res;
 
-            /*List<products> temp = new List<products>();
-           
-            temp = res;
-            Console.WriteLine("1");
-            */return View(res);
+            return View(res);
         }
-
-        /*public IActionResult Products() {
-           
-            return View(productList);
-        }*/
 
         public IActionResult Cart()
         {

@@ -4,6 +4,93 @@
     ViewBag.Title = "products";
 }
 
+<script>
+    function addToCart(productId) {
+        
+        // Check if sessionStorage is supported
+        if (typeof (Storage) !== "undefined") {
+            // Retrieve existing cart data from sessionStorage or initialize an empty array
+            var cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+
+            // Check if the product is already in the cart
+            var existingProduct = cart.find(item => item.productId === productId);
+            let index = cart.findIndex(item => item.productId === productId);
+
+            if (existingProduct !== undefined) {
+                // If the product is already in the cart, you can update quantity or do nothing
+
+                /*if (newItem.Id === item.Id) {
+                    item.color = newItem.color
+                }*/
+                cart.splice(index, 1);
+                cart.push({
+                    productId: existingProduct.productId,
+                    quantity: existingProduct.quantity + 1
+                })
+
+                // Update sessionStorage with the modified cart data
+               // sessionStorage.setItem("cart", JSON.stringify(cart));
+                console.log(existingProduct);
+                console.log("old value" + existingProduct.quantity);
+                //existingProduct.quantity++;
+                //= existingProduct.quantity + 1;
+                //cart.push({ productId, updatedCount });
+                console.log("new value" + existingProduct.quantity);
+
+            } else {
+                // If the product is not in the cart, add it
+                cart.push({
+                    productId: productId,
+                    quantity: 1
+                });
+                // Update sessionStorage with the new cart data
+                //sessionStorage.setItem("cart", JSON.stringify(cart));
+
+                // Update the cart counter in the navigation bar
+
+            }
+            sessionStorage.setItem("cart", JSON.stringify(cart));
+            //updateCartCounter(existingProduct.quantity);
+            var cartCounterStorage = JSON.parse(sessionStorage.getItem("cart")) || [];
+            var totalQuantity = 0;
+
+            /*cartCounterStorage.forEach(function(element){
+                totalQuantity = totalQuantity + element.quantity;
+            });*/
+
+
+            cartCounterStorage.forEach(function (element) {
+                if (element && typeof element.quantity === 'number') {
+                    totalQuantity += element.quantity;
+                } else {
+                    console.log("Invalid element in cartCounterStorage:", element);
+                }
+            });
+
+            console.log(totalQuantity);
+            updateCartCounter(totalQuantity);
+
+        } else {
+            // Handle the case where sessionStorage is not supported
+            console.error("Session storage is not supported. Unable to add to cart.");
+        }
+
+    }
+
+   function updateCartCounter(newQuantity) {
+        alert("cart updated");
+        // Retrieve cart data from sessionStorage
+        //var cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+        var cartCounter = document.getElementById("cartCounter");
+        cartCounter.innerText = newQuantity;
+        // Calculate the total quantity in the cart
+        //var id = cart.getItem(productId);
+        
+            //var totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
+            // Update the cart counter in the navigation bar
+           // document.getElementById("cartCounter").innerText = totalQuantity;
+    }
+</script>
 
 
 <!-- Navbar -->
@@ -40,30 +127,9 @@
 
                             @foreach (products p in Model)
                             {
-                                @* <img src="@p.img" height="300px"/>
-                                <h5 class="card-title">
-                                    @p.p_name
-                                </h5>
-                                
-                                <p class="text-muted mb-4">
-                                    @p.details
-                                </p>
-
-                            
-                            <div>
-                            <div class="d-flex justify-content-between">
-                                <span>Selling Price</span><span>&#8377 @p.s_price.00</span>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <span>Original Price</span><span><del>&#8377 @p.o_price.00</del></span>
-                            </div>
-                            
-                            </div> *@
-                             
                             <div class="col-md-4 col-lg-4 col-xl-4 ">
                                 <div class="card text-black">
-                                    <img src="@p.img"
-                                         class="card-img-top" alt="strawberry" />
+                                    <img src="@Url.Content(@p.img)" class="card-img-top" alt="@p.p_name" height="300px"/>
                                     <div class="card-body">
                                         <div class="text-center">
                                             <h5 class="card-title">@p.p_name</h5>
@@ -79,7 +145,8 @@
                                                 <span>Original Price</span><span><del>&#8377 @p.o_price.00</del></span>
                                             </div>
                                         </div>
-                                        <a href="#" class="btn cart px-auto">ADD TO CART</a>
+                                        <button type="submit" class="btn cart px-auto" onclick="addToCart(@p.id)" data-product-id="@p.id">ADD TO CART</button>
+
                                     </div>
                                 </div>
                             </div>
@@ -89,3 +156,4 @@
 </div>
 
 <a href="#" class="top">Back to Top &#8593;</a>
+
