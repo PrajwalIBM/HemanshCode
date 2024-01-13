@@ -91,14 +91,6 @@
                     console.error('Error submitting cart:', error);
                 });
         }
-      
-
-        // Sample products with image URLs
-        /*const products = [
-            { id: 1, name: 'Mahabaleswar Strawberry', price: 95.00, quantity: 1, image: 'https://freepngimg.com/download/strawberry/8-2-strawberry-download-png.png' },
-            { id: 2, name: 'Onion', price: 46.00, quantity: 1, image: 'https://freepngimg.com/download/onion/34402-5-red-onion-hd.png' },
-            { id: 3, name: 'Spinach - Greenhouse grown', price: 40.00, quantity: 1, image: 'https://freepngimg.com/save/153527-fresh-green-spinach-png-file-hd/600x600' },
-        ];*/
         const products = JSON.parse(sessionStorage.getItem("cart")) || [];
 
         // Function to render the shopping cart
@@ -132,23 +124,20 @@
                 const row = document.createElement('tr');
                 row.classList.add('cart-item');
                 console.log(products);
+                total = cartData[product.productId].price * product.quantity;
                 row.innerHTML = `
 
                                     <td><img src = "@Url.Content("${cartData[product.productId].img}")" ></td>
                                     <td>${cartData[product.productId].name}</td>
                                     <td>${cartData[product.productId].price}</td>
                                     <td>${product.quantity}</td>
-                        
+                                    <td>${total}</td>
                              
                     `;
-                
-                //url = '~/wwwroot/lib' + cartData[product.productId] + '.jpg';
-
                 cartContainer.appendChild(row);
                 grandTotal += cartData[product.productId].price * product.quantity;
             });
-
-            document.getElementById('grand-total').innerText = `Grand Total: ₹ ${grandTotal.toFixed(2)}`;
+            document.getElementById('grand-total').innerText = `Grand Total: ₹ ${grandTotal.toFixed(2)}`;  
         }
         
 

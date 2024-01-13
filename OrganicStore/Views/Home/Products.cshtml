@@ -6,58 +6,31 @@
 
 <script>
     function addToCart(productId) {
-        
-        // Check if sessionStorage is supported
-        if (typeof (Storage) !== "undefined") {
-            // Retrieve existing cart data from sessionStorage or initialize an empty array
-            var cart = JSON.parse(sessionStorage.getItem("cart")) || [];
 
-            // Check if the product is already in the cart
+        if (typeof (Storage) !== "undefined") {
+            var cart = JSON.parse(sessionStorage.getItem("cart")) || [];
             var existingProduct = cart.find(item => item.productId === productId);
             let index = cart.findIndex(item => item.productId === productId);
 
             if (existingProduct !== undefined) {
-                // If the product is already in the cart, you can update quantity or do nothing
-
-                /*if (newItem.Id === item.Id) {
-                    item.color = newItem.color
-                }*/
                 cart.splice(index, 1);
                 cart.push({
                     productId: existingProduct.productId,
                     quantity: existingProduct.quantity + 1
                 })
-
-                // Update sessionStorage with the modified cart data
-               // sessionStorage.setItem("cart", JSON.stringify(cart));
                 console.log(existingProduct);
                 console.log("old value" + existingProduct.quantity);
-                //existingProduct.quantity++;
-                //= existingProduct.quantity + 1;
-                //cart.push({ productId, updatedCount });
                 console.log("new value" + existingProduct.quantity);
 
             } else {
-                // If the product is not in the cart, add it
                 cart.push({
                     productId: productId,
                     quantity: 1
                 });
-                // Update sessionStorage with the new cart data
-                //sessionStorage.setItem("cart", JSON.stringify(cart));
-
-                // Update the cart counter in the navigation bar
-
             }
             sessionStorage.setItem("cart", JSON.stringify(cart));
-            //updateCartCounter(existingProduct.quantity);
             var cartCounterStorage = JSON.parse(sessionStorage.getItem("cart")) || [];
             var totalQuantity = 0;
-
-            /*cartCounterStorage.forEach(function(element){
-                totalQuantity = totalQuantity + element.quantity;
-            });*/
-
 
             cartCounterStorage.forEach(function (element) {
                 if (element && typeof element.quantity === 'number') {
@@ -71,27 +44,17 @@
             updateCartCounter(totalQuantity);
 
         } else {
-            // Handle the case where sessionStorage is not supported
             console.error("Session storage is not supported. Unable to add to cart.");
         }
 
     }
 
-   function updateCartCounter(newQuantity) {
-        alert("cart updated");
-        // Retrieve cart data from sessionStorage
-        //var cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+    function updateCartCounter(newQuantity) {
+        alert("Added to cart.");
         var cartCounter = document.getElementById("cartCounter");
         cartCounter.innerText = newQuantity;
-        // Calculate the total quantity in the cart
-        //var id = cart.getItem(productId);
-        
-            //var totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
-            // Update the cart counter in the navigation bar
-           // document.getElementById("cartCounter").innerText = totalQuantity;
     }
 </script>
-
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary text1">
@@ -108,13 +71,13 @@
             <!-- Left links -->
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#fruits">Fruits (10)</a>
+                    <a class="nav-link active category" aria-current="page" href="#" data-category="fruits">Fruits (10)</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#veggie">Vegetables (15)</a>
+                    <a class="nav-link category" href="#" data-category="vegetables">Vegetables (15)</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#leafyveggie">Leafy Greens (8)</a>
+                    <a class="nav-link category" href="#" data-category="leafy greens">Leafy Greens (8)</a>
                 </li>
             </ul>
         </div>
@@ -125,35 +88,71 @@
 <div class="container py-5">
     <div class="row justify-content-center">
 
-                            @foreach (products p in Model)
-                            {
-                            <div class="col-md-4 col-lg-4 col-xl-4 ">
-                                <div class="card text-black">
-                                    <img src="@Url.Content(@p.img)" class="card-img-top" alt="@p.p_name" height="300px"/>
-                                    <div class="card-body">
-                                        <div class="text-center">
-                                            <h5 class="card-title">@p.p_name</h5>
-                                            <p class="text-muted mb-4">
-                                                @p.details
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <div class="d-flex justify-content-between">
-                                                <span>Selling Price</span><span>&#8377 @p.s_price.00</span>
-                                            </div>
-                                            <div class="d-flex justify-content-between">
-                                                <span>Original Price</span><span><del>&#8377 @p.o_price.00</del></span>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn cart px-auto" onclick="addToCart(@p.id)" data-product-id="@p.id">ADD TO CART</button>
-
-                                    </div>
-                                </div>
+        @foreach (products p in Model)
+        {
+            <div class="col-md-4 col-lg-4 col-xl-4" style="margin-bottom: 20px">
+                <div class="card text-black" data-category="@p.category.ToLower()">
+                    <img src="@Url.Content(@p.img)" class="card-img-top" alt="@p.p_name" height="300px" />
+                    <div class="card-body">
+                        <div class="text-center">
+                            <h5 class="card-title">@p.p_name</h5>
+                            <p class="text-muted mb-4">
+                                @p.details
+                            </p>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between">
+                                <span>Selling Price</span><span>&#8377 @p.s_price.00</span>
                             </div>
-                            
-                            }
+                            <div class="d-flex justify-content-between">
+                                <span>Original Price</span><span><del>&#8377 @p.o_price.00</del></span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn cart px-auto" onclick="addToCart(@p.id)" data-product-id="@p.id">ADD TO CART</button>
+
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </div>
 
 <a href="#" class="top">Back to Top &#8593;</a>
+
+@section scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var categoryLinks = document.querySelectorAll(".category");
+            // var productsContainer = document.getElementById("productsContainer");
+
+            categoryLinks.forEach(function (link) {
+                link.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    var selectedCategory = link.getAttribute("data-category");
+                    filterProducts(selectedCategory);
+                });
+            });
+
+            function filterProducts(category) {
+                var productItems = document.querySelectorAll(".card[data-category]");
+                productItems.forEach(function (item) {
+                    if (category === "all" || item.getAttribute("data-category").toLowerCase() === category) {
+                        item.style.display = "block";
+                    } else {
+                        item.style.display = "none";
+                    }
+                });
+                // productsContainer.style.display = Array.from(productItems).some(item => item.style.display === "block") ? "block" : "none";
+            }
+        });
+    </script>
+}
+
+
+
+
+
+
+
+
 
