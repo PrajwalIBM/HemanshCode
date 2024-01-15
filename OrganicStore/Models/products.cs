@@ -49,7 +49,9 @@ namespace OrganicStore.Models
                     list.Add(pd);
                 }
             }
+            conn.Close();
             return list;
+            
         }
     }
  }

@@ -50,6 +50,8 @@
 <body>
 
     <div class="container">
+        @using (Html.BeginForm("SubmitCart", "Cart", FormMethod.Post))
+        {
         <table class="table cart-table">
             <thead>
                 <tr>
@@ -64,6 +66,8 @@
             <tbody id="cart-container"></tbody>
         </table>
         <div id="grand-total">Grand Total: &#8377 0.00</div>
+        <button onclick="submitCart()">Submit Cart</button>
+        }
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

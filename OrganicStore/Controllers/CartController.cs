@@ -1,55 +1,77 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿// CartController.cs
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Newtonsoft.Json;  // Add this using statement for JSON serialization
 using OrganicStore.Models;
+using System;
+using System.Collections.Generic;
 
-namespace OrganicStore.Controllers
+public class CartController : Controller
 {
-    // CartController.cs
-    public class CartController : Controller
+    [HttpPost]
+    public IActionResult SubmitCart([FromBody] List<CartItem> cart)
     {
-        private readonly YourDbContext _dbContext;
-
-        public CartController(YourDbContext dbContext)
+        try
         {
-            _dbContext = dbContext;
-        }
-
-        [HttpPost]
-        public IActionResult SubmitCart(List<CartItem> cart)
-        {
-            try
+            using (SqlConnection connection = new SqlConnection(ConnectionMod.getConnString()))
             {
+                connection.Open();
+
                 foreach (var cartItem in cart)
                 {
-                    // You can customize the logic based on your database structure
-                    var existingCartItem = _dbContext.CartItems.FirstOrDefault(c => c.ProductId == cartItem.ProductId);
+                    // Check if the item exists in the database
+                    string selectQuery = "SELECT * FROM CartItems WHERE ProductId = @ProductId";
+                    using (SqlCommand selectCommand = new SqlCommand(selectQuery, connection))
+                    {
+                        selectCommand.Parameters.AddWithValue("@ProductId", cartItem.ProductId);
 
-                    if (existingCartItem != null)
-                    {
-                        existingCartItem.Quantity += cartItem.Quantity;
-                        existingCartItem.Total = existingCartItem.Quantity * existingCartItem.Price;
-                    }
-                    else
-                    {
-                        _dbContext.CartItems.Add(new CartItem
+                        using (SqlDataReader reader = selectCommand.ExecuteReader())
                         {
-                            ProductId = cartItem.ProductId,
-                            ProductName = cartItem.ProductName,
-                            Price = cartItem.Price,
-                            Quantity = cartItem.Quantity,
-                            Total = cartItem.Total
-                        });
+                            if (reader.Read())
+                            {
+                                // If the item exists, update quantity and total
+                                string updateQuery = @"
+                                    UPDATE CartItems 
+                                    SET Quantity = Quantity + @Quantity, 
+                                        Total = (Quantity + @Quantity) * Price 
+                                    WHERE ProductId = @ProductId";
+
+                                using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
+                                {
+                                    updateCommand.Parameters.AddWithValue("@ProductId", cartItem.ProductId);
+                                    updateCommand.Parameters.AddWithValue("@Quantity", cartItem.Quantity);
+
+                                    updateCommand.ExecuteNonQuery();
+                                }
+                            }
+                            else
+                            {
+                                // If the item doesn't exist, insert a new record
+                                string insertQuery = @"
+                                    INSERT INTO CartItems (ProductId, ProductName, Price, Quantity, Total) 
+                                    VALUES (@ProductId, @ProductName, @Price, @Quantity, @Total)";
+
+                                using (SqlCommand insertCommand = new SqlCommand(insertQuery, connection))
+                                {
+                                    insertCommand.Parameters.AddWithValue("@ProductId", cartItem.ProductId);
+                                    insertCommand.Parameters.AddWithValue("@ProductName", cartItem.ProductName);
+                                    insertCommand.Parameters.AddWithValue("@Price", cartItem.Price);
+                                    insertCommand.Parameters.AddWithValue("@Quantity", cartItem.Quantity);
+                                    insertCommand.Parameters.AddWithValue("@Total", cartItem.Total);
+
+                                    insertCommand.ExecuteNonQuery();
+                                }
+                            }
+                        }
                     }
                 }
-
-                _dbContext.SaveChanges();
-
-                return Json(new { success = true, message = "Cart submitted successfully" });
             }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, message = "Error submitting cart", error = ex.Message });
-            }
+
+            return Json(new { success = true, message = "Cart submitted successfully" });
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, message = "Error submitting cart", error = ex.Message });
         }
     }
-
 }
